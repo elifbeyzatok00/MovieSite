@@ -1,3 +1,11 @@
+<!--
+        1- Film açıklamasındaki baş harf hariç tüm harfleri küçük harfe çeviriniz.
+        2- Film açıklaması içindeki ilk 50 karakteri alarak sonuna "..." ekleyiniz. (substr) 
+        3- Her bir film için url bilgisini film başlığına göre oluşturunuz.    
+        4- "baslik" isminde bir sabit oluşturarak sayfanın h1 etiketinde kullanınız.  
+
+ -->
+
 <?php
 
     $kategori1 ="Macera";
@@ -21,6 +29,24 @@
     $film2_vizyon="hayır";
 
 
+    $film1_aciklama = strtolower($film1_aciklama);
+    $film1_aciklama = ucfirst($film1_aciklama);
+
+    $film2_aciklama = strtolower($film2_aciklama);
+    $film2_aciklama = ucfirst($film2_aciklama);
+
+    $film1_aciklama = substr($film1_aciklama, 0, 200)."...";
+    $film2_aciklama = substr($film2_aciklama, 0, 200)."...";
+
+    $film1_url = strtolower($film1_baslik); //film1_baslik ı küçültüp film1_url e attık
+    $film1_url = str_replace([" ", "ç"], ["-", "c"], $film1_url); //film1_url deki boşlukları - ile değiştirdik //tr karakterleri ing e çevirdik
+    
+    
+    $film2_url = strtolower($film2_baslik); //film1_baslik ı küçültüp film1_url e attık
+    $film2_url = str_replace([" ", "ç"], ["-", "c"], $film2_url); //film1_url deki boşlukları - ile değiştirdik //tr karakterleri ing e çevirdik
+    
+
+    const baslik = "Popüler Filmler";
 ?>
 
 
@@ -48,7 +74,8 @@
 
             </div>
             <div class="col-9">
-
+                <h1 class="mb-4"><?php echo baslik ?></h1>
+                
 
                 <div class="card mb-3">
                     <div class="row">
@@ -64,7 +91,7 @@
                         
                         <div class="col-9">
                             <div class="card-body">
-                                <div class="card-title"><?php echo  $film1_baslik ?></div>
+                                <div class="card-title"><?php echo "<a href=\"{$film1_url}\">{$film1_baslik}</a>" ?></div>
                                 <p class="card-text">
                                 <?php echo $film1_aciklama ?>
                                 </p>
@@ -93,7 +120,7 @@
                         
                         <div class="col-9">
                             <div class="card-body">
-                                <div class="card-title"><?php echo  $film2_baslik ?></div>
+                                <div class="card-title"><?php echo  "<a href=\"{$film2_url}\">{$film2_baslik}</a>" ?></div>
                                 <p class="card-text">
                                 <?php echo $film2_aciklama ?>
                                 </p>
