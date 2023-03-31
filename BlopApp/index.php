@@ -1,7 +1,8 @@
 <?php
-    $kategoriler = array("Macera", "Dram", "Komedi", "Korku");
 
-    $filmler = array(
+    $kategoriler = array("Macera","Dram","Komedi","Korku","Bilim Kurgu");
+
+    $filmler = array( 
         "1"=> array(
             "baslik" => "Paper Lives",
             "aciklama" => "Kağıt toplayarak geçinen ve sağlığı giderek kötüleşen Mehmet terk edilmiş bir çocuk bulur. Birden hayatına giren küçük Ali, onu kendi çocukluğuyla yüzleştirecektir. (18 yaş ve üzeri için uygundur)",
@@ -18,21 +19,38 @@
             "begeniSayisi" => "305",
             "vizyon" => false
         )
-    );
+        ,
+        "3"=> array(
+            "baslik" => "yeni film 1",
+            "aciklama" => "Zombi kıyametinin ardından hayatta kalanlar, birlikte verdikleri ölüm kalım mücadelesinde insanlığa karşı duydukları umuda tutunur.",
+            "resim" => "3.jpeg",
+            "yorumSayisi" => "236",
+            "begeniSayisi" => "305",
+            "vizyon" => false
+        )
+        ,
+        "4"=> array(
+            "baslik" => "yeni film 2",
+            "aciklama" => "Zombi kıyametinin ardından hayatta kalanlar, birlikte verdikleri ölüm kalım mücadelesinde insanlığa karşı duydukları umuda tutunur.",
+            "resim" => "1.jpeg",
+            "yorumSayisi" => "236",
+            "begeniSayisi" => "305",
+            "vizyon" => false
+        )
+    );    
 
-    $filmler["1"]["url"] = strtolower($filmler["1"]["baslik"]); //film1_baslik ı küçültüp film1_url e attık
-    $filmler["1"]["url"] = str_replace([" ", "ç"], ["-", "c"], $filmler["1"]["url"]); //film1_url deki boşlukları - ile değiştirdik //tr karakterleri ing e çevirdik
-    
-    $filmler["2"]["url"] = strtolower($filmler["2"]["baslik"]); //film1_baslik ı küçültüp film1_url e attık
-    $filmler["2"]["url"] = str_replace([" ", "ç"], ["-", "c"], $filmler["2"]["url"]); //film1_url deki boşlukları - ile değiştirdik //tr karakterleri ing e çevirdik
-    
+    foreach ($filmler as $key => $film) {
+        $filmler[$key]["url"] = strtolower($filmler[$key]["baslik"]);
+        $filmler[$key]["url"] = str_replace([" ","ç"],["-","c"],$filmler[$key]["url"]);
+    }
+
     const limit = 100;
     const baslik = "Popüler Filmler";
     $kategoriSayisi = count($kategoriler);
     $filmSayisi = count($filmler);
     $ozet = "$kategoriSayisi kategoride $filmSayisi film listelenmiştir";
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,139 +62,82 @@
     <title>Blog App</title>
 </head>
 <body>
-
-    <div class="container">
+    
+    <div class="container my-5">
+    
         <div class="row">
 
             <div class="col-3">
                 <ul class="list-group">
-                    <li class="list-group-item"><?php echo $kategoriler[0] ?></li>
-                    <li class="list-group-item"><?php echo $kategoriler[1] ?></li>
-                    <li class="list-group-item"><?php echo $kategoriler[2] ?></li>
-                    <li class="list-group-item"><?php echo $kategoriler[3] ?></li>
+                    <?php
+                        foreach($kategoriler as $kategori) {
+                            echo '<li class="list-group-item">'.$kategori.'</li>';
+                        };
+                    ?>                   
                 </ul>
-
             </div>
             <div class="col-9">
-                <h1 class="mb-4"><?php echo baslik ?></h1>
+                <h1 class="mb-4"><?php echo baslik?></h1>
                 <p class="text-muted">
-                <?php echo $ozet ?>
+                    <?php echo $ozet?>
                 </p>
 
-                <div class="card mb-3">
-                    <div class="row">
+                <?php     
 
-                        <div class="col-3">
-                            <?php
-                                echo "<img class=\"img-fluid\" src=\"img/{$filmler["1"]["resim"]}\">"
-                                // class="img-fluid" responsive olması için eklenmeli önemli 
-                                
-                            ?>
-                            
-                        </div>
-                        
-                        <div class="col-9">
-                            <div class="card-body">
-                                <div class="card-title"><?php echo "<a href=\"{$filmler["1"]["url"]}\">{$filmler["1"]["baslik"]}</a>" ?></div>
-                                <p class="card-text">
-                                    <?php
-                                        if(strlen($filmler["1"]["aciklama"]) > limit){
-                                            echo substr($filmler["1"]["aciklama"],0,limit)."...";
-                                            // $filmler["1"]["aciklama"] değişkeninde 0'dan başla limit kadar al.Sonuna ... ekle.
-                                        }else{
-                                            echo $filmler["1"]["aciklama"] ;
-                                        }
-                                    ?>
-                                </p>
-                                <div>
-                                    
-                                    <?php
-                                        if($filmler["1"]["yorumSayisi"] > 0){
-                                            echo "<span class=\"badge bg-primary\">{$filmler["1"]["yorumSayisi"]} yorum</span>";
-                                    
-                                        }
-                                        
-                                    ?>
+                    foreach($filmler as $id => $film) {
 
-                                    <span class="badge bg-primary"><?php echo  $filmler["1"]["begeniSayisi"] ?> beğeni </span>
-
-
-                                    <span class="badge bg-warning"> 
-                                        <?php 
-                                            if($filmler["1"]["vizyon"]){
-                                                echo "vizyonda" ;
-                                            }else {
-                                                echo "vizyonda değil" ;
-                                            }
-                                            
-                                        ?> 
-                                    </span>
+                        echo  '<div class="card mb-3">
+                            <div class="row">
+                                <div class="col-3">
+                                    <img class="img-fluid" src="img/'.$film["resim"].'">                          
                                 </div>
-
-                            </div>
-                        </div>
-
-                    </div>    
-                </div>
-
-                <div class="card mb-3">
-                    <div class="row">
-
-                        <div class="col-3">
-                            <?php
-                                echo "<img class=\"img-fluid\" src=\"img/{$filmler["2"]["resim"]}\">"
-                                
-                            ?>
-                            
-                        </div>
-                        
-                        <div class="col-9">
-                            <div class="card-body">
-                                <div class="card-title"><?php echo  "<a href=\"{$filmler["2"]["url"]}\">{$filmler["2"]["baslik"]}</a>" ?></div>
-                                <p class="card-text">
-                                <?php
-                                        if(strlen($filmler["2"]["aciklama"]) > limit){
-                                            echo substr($filmler["2"]["aciklama"],0,limit)."...";
-                                            // $filmler["2"]["aciklama"] değişkeninde 0'dan başla limit kadar al.Sonuna ... ekle.
-                                        }else{
-                                            echo $filmler["2"]["aciklama"] ;
-                                        }
-                                    ?>
-                                </p>
-                                <div>
-                                    <?php
-                                        if($filmler["2"]["yorumSayisi"] > 0){
-                                            echo "<span class=\"badge bg-primary\">{$filmler["2"]["yorumSayisi"]} yorum</span>";
-                                    
-                                        }
-                                        
-                                    ?>
-                                    <span class="badge bg-primary"><?php echo  $filmler["2"]["begeniSayisi"] ?> beğeni </span>
-
-                                    <span class="badge bg-warning"> 
-                                        <?php 
-                                            if($filmler["2"]["vizyon"]){
-                                                echo "vizyonda" ;
-                                            }else {
-                                                echo "vizyonda değil" ;
-                                            }
+                                <div class="col-9">
+                                    <div class="card-body">                        
+                                        <h5 class="card-title"><a href="'.$film["url"].'">'.$film["baslik"].'</a></h5>
+                                        <p class="card-text">';
                                             
-                                        ?> 
-                                    </span>
+                                            if (strlen($film["aciklama"]) > limit) {
+                                                echo substr($film["aciklama"],0,limit)."...";
+                                            } else {
+                                                echo $film["aciklama"];
+                                            };
+
+                                        echo '</p><div>';
+
+                                            if ($film["yorumSayisi"] > 0) {
+                                                echo '<span class="badge bg-primary me-1">'.$film["yorumSayisi"].' yorum</span>';
+                                            };
+
+                                            echo '<span class="badge bg-primary me-1">'.$film["begeniSayisi"].' beğeni</span>';
+
+                                            echo '<span class="badge bg-warning me-1">';
+                                               
+                                            if ($film["vizyon"]) {
+                                                echo "vizyonda";
+                                            } else {
+                                                echo "vizyonda değil";
+                                            };
+
+                                        echo '</span>
+                                        </div>
+                                    </div>
+                                
                                 </div>
-
                             </div>
-                        </div>
+                        </div>';
 
-                    </div>    
-                </div>
-
+                    }                                 
                 
+                ?>
 
             </div>
-
+        
+        
         </div>
-    </div>
     
+    </div>
+
+
+
 </body>
 </html>
