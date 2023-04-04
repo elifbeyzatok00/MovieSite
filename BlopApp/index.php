@@ -9,7 +9,8 @@
             "resim" => "1.jpeg",
             "yorumSayisi" => "0",
             "begeniSayisi" => "106",
-            "vizyon" => true
+            "vizyon" => true,
+            "url" => "paper-lives"
         ),
         "2"=> array(
             "baslik" => "Walking Dead",
@@ -17,7 +18,8 @@
             "resim" => "2.jpeg",
             "yorumSayisi" => "236",
             "begeniSayisi" => "305",
-            "vizyon" => false
+            "vizyon" => false,
+            "url" => "walking-dead"
         )
         ,
         "3"=> array(
@@ -26,7 +28,8 @@
             "resim" => "3.jpeg",
             "yorumSayisi" => "236",
             "begeniSayisi" => "305",
-            "vizyon" => false
+            "vizyon" => false,
+            "url" => "paper-lives"
         )
         ,
         "4"=> array(
@@ -35,20 +38,44 @@
             "resim" => "1.jpeg",
             "yorumSayisi" => "236",
             "begeniSayisi" => "305",
-            "vizyon" => false
+            "vizyon" => false,
+            "url" => "paper-lives"
         )
     );    
 
-    foreach ($filmler as $key => $film) {
-        $filmler[$key]["url"] = strtolower($filmler[$key]["baslik"]);
-        $filmler[$key]["url"] = str_replace([" ","ç"],["-","c"],$filmler[$key]["url"]);
+    // $filmler global olduğu için ulaşmak için & referans olarak kullandık
+    function filmEkle(&$filmler, string $baslik, string $aciklama, string $resim, int $yorumSayisi = 0, int $begeniSayisi = 0, bool $vizyon = false){
+        //global $filmler;
+        $new_item[count($filmler) + 1] = array(
+            "baslik" => $baslik,
+            "aciklama" => $aciklama,
+            "resim" =>  $resim,
+            "yorumSayisi" => $yorumSayisi,
+            "begeniSayisi" => $begeniSayisi,
+            "vizyon" => $vizyon
+        );
+
+        $filmler = array_merge($filmler, $new_item);
+
+        
+    }
+
+    filmEkle($filmler, "yeni film", "yeni film aciklama", "1.jpeg" );
+    filmEkle($filmler, "yeni film 2", "yeni film aciklama", "2.jpeg" );
+
+    function kisaAciklama($aciklama, $limit) {
+        if (strlen($aciklama) > $limit) {
+            echo substr($aciklama,0,$limit)."...";
+        } else {
+            echo $aciklama;
+        };
     }
 
     const limit = 100;
     const baslik = "Popüler Filmler";
     $kategoriSayisi = count($kategoriler);
     $filmSayisi = count($filmler);
-    $ozet = "$kategoriSayisi kategoride $filmSayisi film listelenmiştir";
+    $ozet = count($kategoriler)." kategoride ".count($filmler)." film listelenmiştir";
 
 ?>
 
@@ -82,53 +109,46 @@
                     <?php echo $ozet?>
                 </p>
 
-                <?php     
+                <?php foreach($filmler as $id => $film): ?> 
 
-                    foreach($filmler as $id => $film) {
-
-                        echo  '<div class="card mb-3">
+                        <div class="card mb-3">
                             <div class="row">
                                 <div class="col-3">
-                                    <img class="img-fluid" src="img/'.$film["resim"].'">                          
+                                    <img class="img-fluid" src="img/<?php echo $film["resim"] ?>">                          
                                 </div>
                                 <div class="col-9">
                                     <div class="card-body">                        
-                                        <h5 class="card-title"><a href="'.$film["url"].'">'.$film["baslik"].'</a></h5>
-                                        <p class="card-text">';
-                                            
-                                            if (strlen($film["aciklama"]) > limit) {
-                                                echo substr($film["aciklama"],0,limit)."...";
-                                            } else {
-                                                echo $film["aciklama"];
-                                            };
+                                        <h5 class="card-title"><a href="<?php $film["url"] ?>"> <?php echo $film["baslik"] ?> </a></h5>
+                                        <p class="card-text">
+                                            <?php kisaAciklama($film['aciklama'], 200); ?>
+                                        </p>
+                                        <div>
 
-                                        echo '</p><div>';
+                                            <?php if ($film["yorumSayisi"] > 0): ?>
+                                                <span class="badge bg-primary me-1"><?php echo $film["yorumSayisi"] ?> yorum</span>
+                                            <?php endif; ?>
 
-                                            if ($film["yorumSayisi"] > 0) {
-                                                echo '<span class="badge bg-primary me-1">'.$film["yorumSayisi"].' yorum</span>';
-                                            };
+                                            <span class="badge bg-primary me-1"><?php echo $film["begeniSayisi"] ?> beğeni</span>
 
-                                            echo '<span class="badge bg-primary me-1">'.$film["begeniSayisi"].' beğeni</span>';
-
-                                            echo '<span class="badge bg-warning me-1">';
+                                            <span class="badge bg-warning me-1">
                                                
-                                            if ($film["vizyon"]) {
-                                                echo "vizyonda";
-                                            } else {
-                                                echo "vizyonda değil";
-                                            };
+                                                <?php if ($film["vizyon"]): ?>
+                                                    <span>vizyonda</span>
+                                                <?php else: ?>
+                                                    <span>vizyonda değil</span>
+                                                <?php endif; ?>
 
-                                        echo '</span>
+                                            </span>
                                         </div>
                                     </div>
                                 
                                 </div>
                             </div>
-                        </div>';
+                        </div>
 
                     }                                 
                 
-                ?>
+                <?php endforeach; ?>
 
             </div>
         
