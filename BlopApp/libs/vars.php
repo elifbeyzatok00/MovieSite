@@ -13,7 +13,7 @@
         ),
         "2"=> array(
             "baslik" => "Walking Dead",
-            "aciklama" => "Zombi kıyametinin ardından hayatta kalanlar, birlikte verdikleri ölüm kalım mücadelesinde insanlığa karşı duydukları umuda tutunur.",
+            "aciklama" => "Zombi lives kıyametinin ardından hayatta kalanlar, birlikte verdikleri ölüm kalım mücadelesinde insanlığa karşı duydukları umuda tutunur.",
             "resim" => "2.jpeg",
             "yorumSayisi" => "236",
             "begeniSayisi" => "305",
@@ -43,6 +43,9 @@
     );   
 
     const baslik = "Popüler Filmler";
-    $ozet = count($kategoriler).' kategoride '.count($filmler).'  film listelenmiştir';
-
+    //  $ozet = count($kategoriler).' kategoride '.count($filmler).'  film listelenmiştir';
+    /*  $ozet bilgisine filtreleme yapıldıktan sonra ulaşmalıyız. Yoksa istenen bilgi yanlış döner.
+        Bu yüzden index.php sayfasını incelediğimizde _navbar.php'ın tanımlandığı satırın  altında tanımlanmalı.
+        _title.php içine taşıyalım
+    */
 ?>
